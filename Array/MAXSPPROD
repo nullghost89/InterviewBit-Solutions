@@ -1,0 +1,33 @@
+int Solution::maxSpecialProduct(vector<int> &A)
+{
+  int n=A.size();
+  vector<int> lv(n,0),rv(n,0);
+  stack<int> ls,rs;
+  ls.push(0);
+  lv[0]=0;
+  for (int i = 1; i < n; i++) {
+    while (!ls.empty()) {
+      if(A[ls.top()]>A[i]) break;
+      ls.pop();
+    }
+    lv[i]=(ls.empty())?0:ls.top();
+    ls.push(i);
+  }
+  
+  rs.push(n-1);
+  rv[n-1]=0;
+  for (int i = n-2; i >=0; i--) {
+    while (!rs.empty()) {
+      if(A[rs.top()]>A[i]) break;
+      rs.pop();
+    }
+    rv[i]=(rs.empty())?0:rs.top();
+    rs.push(i);
+  }
+  
+  long long mx=-1;
+  for (int i = 0; i < n; i++) {
+    mx=max(mx,lv[i]*1LL*rv[i]);
+  }
+  return mx%1000000007;
+}
